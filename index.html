@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fake Nude Detector</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 { color: #1e90ff; }
+    input[type="file"] { margin-top: 20px; }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #1e90ff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 16px;
+      background: #222;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .docs {
+      margin-top: 50px;
+      background: #222;
+      padding: 20px;
+      border-radius: 5px;
+    }
+    .docs code {
+      background: #333;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #00ff90;
+    }
+  </style>
+</head>
+<body>
+  <h1>Fake Nude Detector</h1>
+  <p>Upload an image to check if it's a fake nude or NSFW:</p>
+  <input type="file" id="imageInput" accept="image/*" />
+  <br>
+  <button onclick="submitImage()">Analyze</button>
+  <div id="result"></div>
+
+  <div class="docs">
+    <h2>API Docs</h2>
+    <p><strong>POST</strong> <code>/detect</code></p>
+    <p><strong>Body:</strong> Form-data with key <code>file</code> and an image file.</p>
+    <p><strong>Response:</strong></p>
+    <pre><code>{
+  "nudity_detected": true,
+  "unsafe_score": 0.98,
+  "safe_score": 0.02
+}</code></pre>
+  </div>
+
+  <script>
+    async function submitImage() {
+      const input = document.getElementById("imageInput");
+      if (!input.files.length) {
+        alert("Please select an image.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", input.files[0]);
+
+      document.getElementById("result").innerHTML = "Analyzing...";
+
+      try {
+        const response = await fetch("/detect", {
+          method: "POST",
+          body: formData
+        });
+        const data = await response.json();
+        document.getElementById("result").innerHTML = `
+          <strong>Nudity Detected:</strong> ${data.nudity_detected}<br>
+          <strong>Unsafe Score:</strong> ${data.unsafe_score}<br>
+          <strong>Safe Score:</strong> ${data.safe_score}
+        `;
+      } catch (err) {
+        document.getElementById("result").innerHTML = "Something went wrong.";
+      }
+    }
+  </script>
+</body>
+</html>
