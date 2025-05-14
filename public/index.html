@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth or Dare API</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Truth or Dare API</h1>
+        <p>Welcome to the ultimate Truth or Dare API! Get random truths or dares in multiple languages.</p>
+        
+        <div class="api-menu">
+            <h2>API Usage</h2>
+            <p>Use the following endpoint to get a random Truth or Dare:</p>
+            <code>GET /TorD?type=T&lang=bn</code>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><strong>type</strong>: T (Truth) or D (Dare)</li>
+                <li><strong>lang</strong>: bn (Bengali), en (English)</li>
+            </ul>
+            <p><strong>Example Response:</strong></p>
+            <pre>
+{
+  "type": "Truth",
+  "content": "What is the most embarrassing thing you've ever done?"
+}
+            </pre>
+            <p>Try it out:</p>
+            <select id="type">
+                <option value="T">Truth</option>
+                <option value="D">Dare</option>
+            </select>
+            <select id="lang">
+                <option value="bn">Bengali</option>
+                <option value="en">English</option>
+            </select>
+            <button onclick="fetchTorD()">Get Truth or Dare</button>
+            <div id="result"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
